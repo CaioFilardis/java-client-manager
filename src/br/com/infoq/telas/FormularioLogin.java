@@ -25,7 +25,12 @@ public class FormularioLogin extends javax.swing.JFrame {
         initComponents();
         //setSize(736, 650);
         conexao = Conexao.conector();
-        System.out.println(conexao);
+        
+        if (conexao != null) {
+            lblstatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infoq/icones/dataBaseAccept.png")));
+        } else {
+            lblstatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infoq/icones/dataBaseError.png")));
+        }
     }
 
     /**
@@ -40,9 +45,11 @@ public class FormularioLogin extends javax.swing.JFrame {
         txt_usuario = new javax.swing.JTextField();
         txt_senha = new javax.swing.JPasswordField();
         btn_login = new javax.swing.JButton();
+        lblstatus = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         txt_usuario.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
@@ -66,6 +73,13 @@ public class FormularioLogin extends javax.swing.JFrame {
         });
         getContentPane().add(btn_login);
         btn_login.setBounds(470, 450, 180, 60);
+
+        lblstatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblstatus.setForeground(new java.awt.Color(255, 255, 255));
+        lblstatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infoq/icones/dataBaseError.png"))); // NOI18N
+        lblstatus.setText("jLabel1");
+        getContentPane().add(lblstatus);
+        lblstatus.setBounds(10, 10, 70, 100);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/infoq/img/teste.png"))); // NOI18N
         getContentPane().add(jLabel3);
@@ -121,6 +135,7 @@ public class FormularioLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblstatus;
     private javax.swing.JPasswordField txt_senha;
     private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
