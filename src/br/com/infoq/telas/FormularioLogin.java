@@ -5,6 +5,7 @@
 package br.com.infoq.telas;
 import br.com.infoq.dal.Conexao;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +18,29 @@ public class FormularioLogin extends javax.swing.JFrame {
     ResultSet result = null;
     
     
+    public void logar() {
+        // verifica se existe usuário
+        String sql = "SELECT * FROM tbusuario WHERE login = ? AND senha = ?";
+        
+        
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txt_usuario.getText());
+            pst.setString(2, txt_senha.getText());
+            
+            // executa a query (consulta)
+            result = pst.executeQuery();
+            
+            if (result.next()) {
+                TelaPrincipal principal = new TelaPrincipal();
+                principal.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário ou senha inválido");
+            }
+        } catch(Exception e) {
+            
+        }
+    }
     
     /**
      * Creates new form FormularioLogin
@@ -93,8 +117,9 @@ public class FormularioLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_usuarioActionPerformed
 
+    // btn login
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        // TODO add your handling code here:
+          logar();
     }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
