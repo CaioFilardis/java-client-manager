@@ -4,6 +4,7 @@
  */
 package br.com.infoq.telas;
 import br.com.infoq.dal.Conexao;
+import java.awt.Color;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -32,10 +33,26 @@ public class FormularioLogin extends javax.swing.JFrame {
             result = pst.executeQuery();
             
             if (result.next()) {
-                TelaPrincipal principal = new TelaPrincipal();
-                principal.setVisible(true);
-                this.dispose();
-                conexao.close();
+                // pegar o campo de valor 6 (sexto campo do banco de dados coluna 'perfil')
+                String perfil = result.getString(6);
+                
+                // define se é admin ou não
+                if (perfil.equals("admin")) {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.menuCadUsu.setEnabled(true); // habilitando aba de usuários
+                    TelaPrincipal.lblUsuario.setText(result.getString(2)); // retornando o nome do usuário
+                    TelaPrincipal.lblUsuario.setForeground(Color.blue);
+                    this.dispose();
+                    conexao.close();
+                } else {
+                    TelaPrincipal principal = new TelaPrincipal();
+                    principal.setVisible(true);
+                    TelaPrincipal.lblUsuario.setText(result.getString(2));
+                    this.dispose();
+                    conexao.close();
+                }
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário ou senha inválido");
             }
@@ -78,6 +95,7 @@ public class FormularioLogin extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(null);
 
+        txt_usuario.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
         txt_usuario.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         txt_usuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +104,8 @@ public class FormularioLogin extends javax.swing.JFrame {
         });
         getContentPane().add(txt_usuario);
         txt_usuario.setBounds(270, 260, 380, 60);
+
+        txt_senha.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
         getContentPane().add(txt_senha);
         txt_senha.setBounds(270, 370, 380, 60);
 
