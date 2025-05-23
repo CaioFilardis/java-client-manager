@@ -64,13 +64,13 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
             pst.setString(5, txt_Senha.getText());
             pst.setString(6, cb_Perfil.getSelectedItem().toString()); // caixa de combinação, converter
             
-            limparCampos();
-            
             // valida se não há campos vazios
             if (txt_Id.getText().isEmpty() || (txt_Nome.getText().isEmpty()) || (txt_Login.getText().isEmpty()) || (txt_Senha.getText().isEmpty()) || (cb_Perfil.getSelectedItem().equals(""))) {
                 JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");
             } else {
             
+                 limparCampos();
+                
                 int adicionado = pst.executeUpdate();
 
                 // informa se foi adicionaod ao banco
@@ -93,6 +93,35 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
         txt_Login.setText(null);
         txt_Senha.setText(null);
         cb_Perfil.setSelectedItem(null);
+    }
+    
+    
+    private void alterar() {
+        String sqlAlterar = "UPDATE tbusuario SET usuario = ?, telefone = ?, login = ?, senha = ?, perfil = ? WHERE idsuer = ?";
+        try {
+            pst = conexao.prepareStatement(sqlAlterar);
+            
+            pst.setString(1, txt_Nome.getText());
+            pst.setString(2, txt_Telefone.getText());
+            pst.setString(3, txt_Login.getText());
+            pst.setString(4, txt_Senha.getText());
+            pst.setString(5, cb_Perfil.getSelectedItem().toString());
+            pst.setString(4, txt_Id.getText());
+            
+            if (txt_Id.getText().isEmpty() || (txt_Nome.getText().isEmpty()) || (txt_Login.getText().isEmpty()) || (txt_Senha.getText().isEmpty()) || (cb_Perfil.getSelectedItem().equals(""))) {
+                JOptionPane.showMessageDialog(null, "Preencha os dados corretamente");
+            } else {
+                int adicionado = pst.executeUpdate();
+
+                // informa se foi adicionado ao banco
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuário editado com sucesso.");
+                    //limparCampos();
+                }
+          }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -272,7 +301,7 @@ public class TelaUsuarios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_DeleteActionPerformed
 
     private void btn_EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_EditActionPerformed
-        // TODO add your handling code here:
+       alterar();
     }//GEN-LAST:event_btn_EditActionPerformed
 
     private void cb_PerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_PerfilActionPerformed
